@@ -1,5 +1,6 @@
 import os
 import cv2
+import ffmpeg  # alternative to opencv
 import requests
 from io import BytesIO
 from PIL import Image, ExifTags
@@ -82,12 +83,10 @@ def create_video_thumbnail(video_path, thumbnail_path, height):
     :param thumbnail_path: path to the thumbnail file
     :param height: height of the thumbnail in pixels
     """
-    video_capture = cv2.VideoCapture(video_path)
-    _, image = video_capture.read()
-    thumbnail = cv2.resize(
-        image, (round(image.shape[1] * float(height) / image.shape[0]), height)
-    )
-    cv2.imwrite(thumbnail_path, thumbnail)
+    probe = ffmpeg.probe(video_path)
+    video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
+    duration = float(video_stream['duration'])
+    ffmpeg.input(video_path, ss=duration/2).filter('scale', -1, height).output(thumbnail_path, vframes=1).run()
 
 
 def create_thumbnail(input_path, thumbnail_path, height):

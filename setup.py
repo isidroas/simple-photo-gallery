@@ -40,5 +40,6 @@ setup(
         'jinja2>=2.10.3',
         'selenium>=3.141.0',
         'requests>=2.22.0',
+        'ffmpeg-python',
     ]
 )
