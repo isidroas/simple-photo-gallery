@@ -105,7 +105,7 @@ def create_thumbnail(input_path, thumbnail_path, height):
     ):
         create_image_thumbnail(input_path, thumbnail_path, height)
     # Handle MP4s
-    elif input_path.lower().endswith(".mp4"):
+    elif input_path.lower().endswith(".mp4") or input_path.lower().endswith(".mov"):
         create_video_thumbnail(input_path, thumbnail_path, height)
     else:
         raise spg_common.SPGException(
