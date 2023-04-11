@@ -25,10 +25,10 @@ class FileGalleryLogicTestCase(unittest.TestCase):
                 tempdir.path, "public", "images", "thumbnails", "photo.jpg"
             )
             thumbnail_gif_path = os.path.join(
-                tempdir.path, "public", "images", "thumbnails", "photo2.jpg"
+                tempdir.path, "public", "images", "thumbnails", "photo2.gif.jpg"
             )
             thumbnail_png_path = os.path.join(
-                tempdir.path, "public", "images", "thumbnails", "photo3.jpg"
+                tempdir.path, "public", "images", "thumbnails", "photo3.png.jpg"
             )
 
             # Init files gallery logic
@@ -41,7 +41,7 @@ class FileGalleryLogicTestCase(unittest.TestCase):
             # Check thumbnail created
             file_gallery_logic.create_thumbnails()
             tempdir.compare(
-                [".empty", "photo.jpg", "photo2.jpg", "photo3.jpg"],
+                [".empty", "photo.jpg", "photo2.gif.jpg", "photo3.png.jpg"],
                 path="public/images/thumbnails",
             )
             # The thumbnails are generated twice as big in order to improve the quality on retina displays
