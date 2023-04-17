@@ -5,6 +5,7 @@ import simplegallery.common as spg_common
 import simplegallery.media as spg_media
 from simplegallery.logic.base_gallery_logic import BaseGalleryLogic
 
+
 def check_correct_thumbnail_size(thumbnail_path, expected_height):
     """
     Check if a thumbnail has the correct height
@@ -22,10 +23,8 @@ def get_thumbnail_name(thumbnails_path, photo_name):
     :param photo_name: Name of the original photo
     :return: Full path to the thumbnail file
     """
-    photo_name = os.path.basename(photo_name)
-    if photo_name.endswith('.jpg'):
-        photo_name = photo_name[:-4]
-    return os.path.join(thumbnails_path, photo_name + ".jpg")
+    photo_name_without_extension = os.path.basename(photo_name).split(".")[0]
+    return os.path.join(thumbnails_path, photo_name_without_extension + ".jpg")
 
 
 class FilesGalleryLogic(BaseGalleryLogic):
