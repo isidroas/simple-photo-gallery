@@ -62,24 +62,25 @@ class FilesGalleryLogic(BaseGalleryLogic):
 
         count_thumbnails_created = 0
         for photo in photos:
-            thumbnail_path = get_thumbnail_name(thumbnails_path, photo)
+            LOG.warning(f'processing file {photo}')
+            try:
+                thumbnail_path = get_thumbnail_name(thumbnails_path, photo)
 
-            # Check if the thumbnail should be generated. This happens if one of the following applies:
-            # - Forced by the user with -f
-            # - No thumbnail for this image
-            # - The thumbnail image size doesn't correspond to the specified size
-            if (
-                force
-                or not os.path.exists(thumbnail_path)
-                or not check_correct_thumbnail_size(thumbnail_path, thumbnail_height)
-            ):
-                try:
-                    spg_media.create_thumbnail(photo, thumbnail_path, thumbnail_height)
-                except spg_common.SPGException:
-                    logging.error(f'Thumbnail creation failed for file {photo}')
-                    continue
+                # Check if the thumbnail should be generated. This happens if one of the following applies:
+                # - Forced by the user with -f
+                # - No thumbnail for this image
+                # - The thumbnail image size doesn't correspond to the specified size
+                if (
+                    force
+                    or not os.path.exists(thumbnail_path)
+                    or not check_correct_thumbnail_size(thumbnail_path, thumbnail_height)
+                ):
+                        spg_media.create_thumbnail(photo, thumbnail_path, thumbnail_height)
+            except spg_common.SPGException:
+                logging.error(f'Thumbnail creation failed for file {photo}')
+                continue
 
-                count_thumbnails_created += 1
+            count_thumbnails_created += 1
 
         spg_common.log(f"New thumbnails generated: {count_thumbnails_created}")
 
