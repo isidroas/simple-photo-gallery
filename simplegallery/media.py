@@ -84,7 +84,7 @@ def create_video_thumbnail(video_path, thumbnail_path, height):
     :param thumbnail_path: path to the thumbnail file
     :param height: height of the thumbnail in pixels
     """
-    probe = ffmpeg.probe(video_path, capture_stdout=True)
+    probe = ffmpeg.probe(video_path, loglevel='panic')
     video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
     duration = float(video_stream['duration'])
     ffmpeg.input(video_path, ss=duration/2).filter('scale', -1, height).output(thumbnail_path, vframes=1).global_args("-y").run(capture_stdout=True)
