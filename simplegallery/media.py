@@ -6,6 +6,7 @@ from io import BytesIO
 from PIL import Image, ExifTags
 from datetime import datetime
 import simplegallery.common as spg_common
+import textwrap
 
 
 # Mapping of the string representation if an Exif tag to its id
@@ -109,7 +110,7 @@ def create_thumbnail(input_path, thumbnail_path, height):
         try:
             create_video_thumbnail(input_path, thumbnail_path, height)
         except ffmpeg.Error as ex:
-            raise spg_common.SPGException(f'Error related to fprobe:\n{ex.stderr}')
+            raise spg_common.SPGException(f'Error related to fprobe:\n' + textwrap(ex.stderr, '   '))
     else:
         raise spg_common.SPGException(
             f"Unsupported file type ({os.path.basename(input_path)})"
