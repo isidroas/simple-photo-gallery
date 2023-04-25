@@ -106,7 +106,10 @@ def create_thumbnail(input_path, thumbnail_path, height):
         create_image_thumbnail(input_path, thumbnail_path, height)
     # Handle MP4s
     elif input_path.lower().endswith(".mp4") or input_path.lower().endswith(".mov"):
-        create_video_thumbnail(input_path, thumbnail_path, height)
+        try:
+            create_video_thumbnail(input_path, thumbnail_path, height)
+        except ffmpeg.Error as ex:
+            raise spg_common.SPGException(f'Error related to fprobe:\n{ex.strerr}')
     else:
         raise spg_common.SPGException(
             f"Unsupported file type ({os.path.basename(input_path)})"
