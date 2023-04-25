@@ -1,9 +1,11 @@
 import os
 import glob
+import logging
 from datetime import datetime
 import simplegallery.common as spg_common
 import simplegallery.media as spg_media
 from simplegallery.logic.base_gallery_logic import BaseGalleryLogic
+LOG = logging.getLogger(__name__)
 
 
 def check_correct_thumbnail_size(thumbnail_path, expected_height):
@@ -71,7 +73,12 @@ class FilesGalleryLogic(BaseGalleryLogic):
                 or not os.path.exists(thumbnail_path)
                 or not check_correct_thumbnail_size(thumbnail_path, thumbnail_height)
             ):
-                spg_media.create_thumbnail(photo, thumbnail_path, thumbnail_height)
+                try:
+                    spg_media.create_thumbnail(photo, thumbnail_path, thumbnail_height)
+                except spg_common.SPGException:
+                    logging.error(f'Thumbnail creation failed for file {photo}')
+                    continue
+
                 count_thumbnails_created += 1
 
         spg_common.log(f"New thumbnails generated: {count_thumbnails_created}")
