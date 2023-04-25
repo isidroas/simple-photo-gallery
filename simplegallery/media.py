@@ -110,7 +110,7 @@ def create_thumbnail(input_path, thumbnail_path, height):
         try:
             create_video_thumbnail(input_path, thumbnail_path, height)
         except ffmpeg.Error as ex:
-            raise spg_common.SPGException(f'Error related to fprobe:\n' + textwrap(ex.stderr, '   '))
+            raise spg_common.SPGException(f'Error related to fprobe:\n' + textwrap.indent(ex.stderr, '   '))
     else:
         raise spg_common.SPGException(
             f"Unsupported file type ({os.path.basename(input_path)})"
