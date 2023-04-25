@@ -76,8 +76,8 @@ class FilesGalleryLogic(BaseGalleryLogic):
                     or not check_correct_thumbnail_size(thumbnail_path, thumbnail_height)
                 ):
                         spg_media.create_thumbnail(photo, thumbnail_path, thumbnail_height)
-            except spg_common.SPGException:
-                logging.error(f'Thumbnail creation failed for file {photo}')
+            except spg_common.SPGException as ex:
+                logging.error(f'Thumbnail creation failed for file {photo}:\n{ex.message}')
                 continue
 
             count_thumbnails_created += 1
