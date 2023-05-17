@@ -250,7 +250,6 @@ def get_metadata(image, thumbnail_path, public_path):
         image_data["size"] = get_video_size(image)
         image_data["type"] = "video"
         image_data["description"] = ""
-        thumbnail_path = thumbnail_path.replace(".mp4", ".jpg")
     else:
         raise spg_common.SPGException(
             f"Unsupported file type {os.path.basename(image)}"
